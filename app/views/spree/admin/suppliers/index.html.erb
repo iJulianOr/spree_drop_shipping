@@ -1,0 +1,24 @@
+<% content_for :page_title do %>
+  <%= plural_resource_name(Spree::Supplier) %>                                                                                     
+<% end %>
+
+<% content_for(:body_attributes) do %> 
+  <data-no-turbolink="true"> 
+<% end %>
+
+<% content_for :page_actions do %>
+  <%= button_link_to 'Nuevo supplier', new_admin_supplier_path, { :class => "btn-success", :icon => 'add', :id => 'admin_new_retailer' } %>
+<% end if can?(:create, Spree::Supplier) %>
+
+<%= paginate @collection %>
+
+<% if @collection.any? %>
+  <%= render 'collection', collection: @collection %>
+<% else %>
+  <div class="alert alert-info no-objects-found">
+    <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::Supplier)) %>,
+    <%= link_to Spree.t(:add_one), new_object_url %>!
+  </div>
+<% end %>
+
+<%= paginate @collection %>

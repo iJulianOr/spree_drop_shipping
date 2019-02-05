@@ -1,0 +1,16 @@
+<% content_for :page_actions do %> 
+  <%= button_link_to 'Volver al listado', admin_suppliers_path, { class: "btn-primary", icon: 'arrow-left', id: 'admin_suppliers' } %> 
+  <% if can?(:create, Spree::Supplier) %> 
+    <%= button_link_to 'Nuevo Proveedor', new_admin_supplier_path, { class: "btn-success", icon: 'add', id: 'admin_new_supplier' } %> 
+  <% end %> 
+<% end %> 
+
+<%= render 'spree/admin/shared/suppliers_tab', current: :products %>
+
+<%= form_for :products, url: admin_update_supplier_products_path do |f| %>
+  <%= label_tag 'Agregar Productos' %>
+  <%= hidden_field_tag 'supplier[product_id]', nil, class: "product_picker fullwidth" %>
+  <%= f.submit "Ain't gonna implementtt", class: 'btn btn-primary' %>
+<% end %>
+
+<%= render 'collection', collection: @products %>

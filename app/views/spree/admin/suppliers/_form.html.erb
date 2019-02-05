@@ -1,0 +1,50 @@
+<div id='carga_suppliers'>                                     
+  <div class='row'>                                     
+    <div class="col-md-12">
+      <%= hidden_field 'supplier', :id, value: f.object.id %>
+      <%= f.field_container :name, :class => ['form-group'] do %>
+        <%= f.label :name, Spree.t(:name) %> <span class="required">*</span>
+        <%= f.text_field :name, :class => 'form-control title validate[required]' %>
+        <%= f.error_message_on :name %>
+      <% end %>
+    </div>
+  </div>
+  <div class='row'>                                     
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">Datos de Andreani</div>
+        <div class="panel-body">
+          <div>
+            <div class='form-group col-md-6'>
+              <%= label_tag 'Usuario', nil %>
+              <%= text_field_tag 'supplier[andreani][username]', @andreani.preferences.try(:fetch, :username), class: 'form-control' %>
+            </div>
+            <div class='form-group col-md-6'>
+              <%= label_tag 'Contraseña', nil %>
+              <%= password_field_tag 'supplier[andreani][password]', @andreani.preferences.try(:fetch, :password), class: 'form-control' %>
+            </div>
+            <div class='form-group col-md-6'>
+              <%= label_tag 'Contrato', nil %>
+              <%= text_field_tag 'supplier[andreani][contrato]', @andreani.preferences.try(:fetch, :contrato), class: 'form-control' %>
+            </div>
+            <div class='form-group col-md-6'>
+              <%= label_tag 'Número de Cliente' %>
+              <%= text_field_tag 'supplier[andreani][cliente]', @andreani.preferences.try(:fetch, :cliente), class: 'form-control' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">Datos de Correo Argentino</div>
+        <div class="panel-body">
+          <p class='text-center'>
+            Próximamente 
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= f.submit text, class: ['form-group btn btn-success'] %>
+</div>

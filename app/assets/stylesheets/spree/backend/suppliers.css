@@ -1,0 +1,70 @@
+.highlight-stock {
+    background: #f7fbff;
+    -webkit-transition:background 1s;
+    -moz-transition:background 1s;
+    -o-transition:background 1s;
+    transition:background 1s
+}
+
+.alert.update-info{
+    position: fixed;
+    bottom: -2px;
+    margin: 0;
+    right: 0;
+}
+
+.stock-info{
+    position: fixed;
+    bottom: -2px;
+    margin: 0;
+    right: 0;
+    background: #81C784;
+    border: none;
+    color: white;
+    padding: 15px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.stock-info .glyphicon-spin{
+    -webkit-animation: spin 1000ms infinite linear;
+    animation: spin 1000ms infinite linear;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+.stock-info.active{
+    opacity: 1;
+}
+
+.image img{
+    text-align: center;
+}
+
+.subsidiaries-help{
+    margin-bottom:15px;
+}
+
+.panel-body{
+    border-bottom: 1px solid #f7f7f7;
+}
