@@ -3,7 +3,6 @@ module Spree
     class SuppliersController < Spree::Admin::BaseController
       before_filter :load_supplier, only: [:edit, :update, :destroy]
       before_filter :load_collection, only: :index
-      after_filter :save_shipping_methods, only: :create
 
       def destroy
         @supplier.destroy
@@ -19,8 +18,13 @@ module Spree
         end
       end
 
+      def show
+        redirect_to edit_admin_supplier_path
+      end
+
       def new
         @supplier = Spree::Supplier.new
+        @andreani = @supplier.shipping_methods.find_by(name: 'Andreani').try(:calculator)
       end
 
       def create
@@ -45,12 +49,6 @@ module Spree
       def load_supplier
         @supplier = Spree::Supplier.find(params[:id])
         @andreani = @supplier.shipping_methods.find_by(name: 'Andreani').try(:calculator)
-      end
-
-      def save_shipping_methods
-        andreani = @supplier.shipping_methods.find_by(name: 'Andreani')
-        andreani.calculator.preferences.merge! andreani_params
-        andreani.calculator.save
       end
 
       def success_path
