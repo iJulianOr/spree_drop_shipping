@@ -5,7 +5,7 @@
   <% end %> 
 <% end %> 
 
-<%= render 'spree/admin/shared/suppliers_tab', current: :details %>
+<%= render 'spree/admin/shared/suppliers_tabs', current: :details, submodule: nil %>
  
 <%= form_for [:admin, @supplier], url: {action: :update}, method: :put, html: { multipart: true } do |f| %> 
   <fieldset> 

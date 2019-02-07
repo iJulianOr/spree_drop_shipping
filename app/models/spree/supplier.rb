@@ -5,6 +5,7 @@ module Spree
     has_many :orders, class_name: 'Spree::Order', as: :entity
     has_many :products, through: :catalogue
     has_many :shipping_methods, class_name: 'Spree::ShippingMethod', as: :entity, dependent: :destroy
+    has_many :importations, class_name: 'Spree::SupplierImportation'
 
     validates :name, uniqueness: { case_sensitive: false }
 

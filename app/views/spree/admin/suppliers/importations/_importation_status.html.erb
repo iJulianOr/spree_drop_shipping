@@ -1,0 +1,8 @@
+<%= content_tag :td, importation.id, class: 'text-center' %>
+<%= content_tag :td, importation.created_at.strftime('%d/%m/%y %H:%M'), class: 'text-center' %>
+<%= content_tag :td, class: 'text-center' do %>
+  <%= content_tag :span, class: "label label-#{Spree.t("hogarnet.importations.status_classes.#{importation.status}")}" do %>
+    <%= Spree.t("hogarnet.importations.#{importation.status}") %>
+    <%= content_tag(:span, nil, class: "icon icon-warning-sign", title: "#{Spree.t('hogarnet.importations.products_with_errors')} #{importation.import_errors}", data: { toggle: "tooltip", placement: "top"}) if importation.status == "warning" %>
+  <% end %>
+<% end %>

@@ -5,7 +5,7 @@
   <% end %> 
 <% end %> 
 
-<%= render 'spree/admin/shared/suppliers_tab', current: :products %>
+<%= render 'spree/admin/shared/suppliers_tabs', current: :products, submodule: '/ Productos' %>
 
 <%= form_for :products, url: admin_update_supplier_products_path do |f| %>
   <%= label_tag 'Agregar Productos' %>

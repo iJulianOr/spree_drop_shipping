@@ -1,0 +1,11 @@
+<% content_for :page_actions do %> 
+  <%= button_link_to 'Volver al listado', admin_suppliers_path, { class: "btn-primary", icon: 'arrow-left', id: 'admin_suppliers' } %> 
+  <%= button_link_to Spree.t('hogarnet.importations.new_importation'), '#', { class: "btn-success", icon: 'add', id: 'admin_export_products', data: { toggle: 'modal', target: '#newImportation'} } %>
+  <%= button_link_to Spree.t('hogarnet.importations.export'), admin_supplier_importations_path(format: :csv), { class: "btn-success", id: 'admin_export_products' } %>
+<% end %> 
+
+<%= render 'spree/admin/shared/suppliers_tabs', current: :importations, submodule: '/ Importaciones' %>
+
+<%= render 'modal' %>
+
+<%= render 'collection', collection: @collection %>

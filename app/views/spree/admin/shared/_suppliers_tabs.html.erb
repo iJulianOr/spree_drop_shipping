@@ -1,15 +1,18 @@
 <% content_for :page_title do %>
   <%= link_to 'Proveedores', admin_suppliers_path %> /
-  <%= @supplier.name %>
+  <%= link_to @supplier.name, admin_supplier_path %> <%= submodule %>
 <% end %>
 
 <% content_for :sidebar do %>
   <ul class="nav nav-pills nav-stacked" data-hook="admin_product_tabs">
     <%= content_tag :li, class: ('active' if current == :details) do %>
-      <%= link_to_with_icon 'edit', Spree.t(:details), edit_admin_supplier_url(@supplier) %>
+      <%= link_to_with_icon 'edit', Spree.t(:details), edit_admin_supplier_path(@supplier) %>
     <% end if can?(:admin, Spree::Supplier) %>
     <%= content_tag :li, class: ('active' if current == :products) do %>
       <%= link_to_with_icon 'th', 'Productos', admin_supplier_products_path(@supplier) %>
+    <% end if can?(:admin, Spree::Product) %>
+    <%= content_tag :li, class: ('active' if current == :importations) do %>
+      <%= link_to_with_icon 'import', 'Importaciones', admin_supplier_importations_path(@supplier) %>
     <% end if can?(:admin, Spree::Product) %>
   </ul>
 <% end %>

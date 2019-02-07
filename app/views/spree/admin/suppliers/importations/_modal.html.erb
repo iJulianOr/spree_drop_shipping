@@ -1,0 +1,23 @@
+<div class="modal fade" id="newImportation" tabindex="-1" role="dialog"  aria-labelledby="newImportationLabel" aria-hidden="true" style="margin-top: 6em;">
+  <div class="modal-dialog" role="document">
+    <%= form_tag admin_new_supplier_importation_path, multipart: true, id: "supplier-products-importer-import" do %>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="newImportationLabel" style="display:inline-block"><%= Spree.t('hogarnet.importations.stock_importation') %></h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><%= Spree.t('hogarnet.importations.modal_description') %></p>
+        </div>
+        <div class="modal-footer">
+          <%= file_field_tag :file, style: "display: inline-block;margin-right: 20px", class: "validate[required]", data: { prompt_position: "topLeft"} %>
+          <%= submit_tag Spree.t('hogarnet.importations.import'), class: "btn btn-primary", id: "admin_import_products" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>$(window).load(function(){ $('#supplier-products-importer-import').validationEngine() })</script>

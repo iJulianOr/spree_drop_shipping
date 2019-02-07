@@ -1,37 +1,43 @@
-<%= form_for :supplier, url: admin_change_supplier_stock_path, remote: true, html: {id: 'stock-socios'} do |f| %>
-  <div id="flash" class='alert alert-info update-info' style='display:none'> 
-    <span class="glyphicon glyphicon-ok"></span> Stock actualizado con éxito
-  </div>
-  <table class="table" id="listing_products">                                                                                                                                            
-    <thead>
-      <tr data-hook="admin_products_index_headers">
-        <th><%= Spree.t(:name) %></th>
-        <%= content_tag :th, Spree.t(:stock), class: 'text-center' %>
-        <th data-hook="admin_products_index_header_actions" class="actions"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% collection.each do |resource| %>
-        <tr id="<%= spree_dom_id resource %>" data-hook="admin_products_index_rows" class="<%= cycle('odd', 'even') %>">
-          <td><%= link_to resource.try(:name), edit_admin_resource_path(resource) %></td>
-          <td class='text-center'>
-            <%= hidden_field_tag "supplier", resource.supplier.id %>
-            <%= label_tag "product_id_#{resource.id}" do %>
-              <%= number_field_tag "stock[#{resource.id}]", resource.stock_items.find_by(stock_location_id: @supplier.stock_location.id).count_on_hand, min: 0, autocomplete: 'off', onchange: "reload_stock_items(#{resource.id});", class: "form-control" %>
-            <% end %>
-          </td>
-          <td class='text-right'>
-            <%= link_to_edit resource, no_text: true, class: 'edit', url: edit_admin_resource_path(resource) if can?(:edit, resource) %>
-            <%= link_to(admin_resource_path(resource), method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: "¿Estás seguro de que deseas eliminar a #{resource.name}?" }) do %>
-              <span class="icon icon-delete"></span>
-            <% end %>
-          </td>
+<% if collection.any? %>
+  <%= form_for :supplier, url: admin_change_supplier_stock_path, remote: true, html: {id: 'stock-socios'} do |f| %>
+    <div id="flash" class='alert alert-info update-info' style='display:none'> 
+      <span class="glyphicon glyphicon-ok"></span> Stock actualizado con éxito
+    </div>
+    <table class="table" id="listing_products">                                                                                                                                            
+      <thead>
+        <tr data-hook="admin_products_index_headers">
+          <th><%= Spree.t(:name) %></th>
+          <%= content_tag :th, Spree.t(:stock), class: 'text-center' %>
+          <th data-hook="admin_products_index_header_actions" class="actions"></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+      </thead>
+      <tbody>
+        <% collection.each do |resource| %>
+          <tr id="<%= spree_dom_id resource %>" data-hook="admin_products_index_rows" class="<%= cycle('odd', 'even') %>">
+            <td><%= link_to resource.try(:name), edit_admin_resource_path(resource) %></td>
+            <td class='text-center'>
+              <%= hidden_field_tag "supplier", resource.supplier.id %>
+              <%= label_tag "product_id_#{resource.id}" do %>
+                <%= number_field_tag "stock[#{resource.id}]", resource.stock_items.find_by(stock_location_id: @supplier.stock_location.id).count_on_hand, min: 0, autocomplete: 'off', onchange: "reload_stock_items(#{resource.id});", class: "form-control" %>
+              <% end %>
+            </td>
+            <td class='text-right'>
+              <%= link_to_edit resource, no_text: true, class: 'edit', url: edit_admin_resource_path(resource) if can?(:edit, resource) %>
+              <%= link_to(admin_resource_path(resource), method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: "¿Estás seguro de que deseas eliminar a #{resource.name}?" }) do %>
+                <span class="icon icon-delete"></span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
 
-<div class="stock-info">
-  <span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Actualizando stock
-</div>
+  <div class="stock-info">
+    <span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Actualizando stock
+  </div>
+<% else %>
+  <div class="alert alert-info no-objects-found">
+    <%= Spree.t(:no_resource_found, resource: "Products") %>.
+  </div>
+<% end %>

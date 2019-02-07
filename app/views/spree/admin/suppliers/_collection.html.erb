@@ -1,21 +1,27 @@
-<table class="table" id="listing_products">
-  <thead>
-    <tr data-hook="admin_products_index_headers">
-      <th><%= Spree.t(:name) %></th>
-      <th data-hook="admin_products_index_header_actions" class="actions"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% collection.each do |resource| %>
-      <tr id="<%= spree_dom_id resource %>" data-hook="admin_products_index_rows" class="<%= cycle('odd', 'even') %>">
-        <td><%= link_to resource.try(:name), edit_admin_resource_path(resource) %></td>
-        <td class='text-right'>
-          <%= link_to_edit resource, no_text: true, class: 'edit', url: edit_admin_resource_path(resource) if can?(:edit, resource) %>
-          <%= link_to(admin_resource_path(resource), method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: "¿Estás seguro de que deseas eliminar a #{resource.name}?" }) do %>
-            <span class="icon icon-delete"></span>
-          <% end %>
-        </td>
+<% if collection.any? %>
+  <table class="table" id="listing_products">
+    <thead>
+      <tr data-hook="admin_products_index_headers">
+        <th><%= Spree.t(:name) %></th>
+        <th data-hook="admin_products_index_header_actions" class="actions"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% collection.each do |resource| %>
+        <tr id="<%= spree_dom_id resource %>" data-hook="admin_products_index_rows" class="<%= cycle('odd', 'even') %>">
+          <td><%= link_to resource.try(:name), edit_admin_resource_path(resource) %></td>
+          <td class='text-right'>
+            <%= link_to_edit resource, no_text: true, class: 'edit', url: edit_admin_resource_path(resource) if can?(:edit, resource) %>
+            <%= link_to(admin_resource_path(resource), method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: "¿Estás seguro de que deseas eliminar a #{resource.name}?" }) do %>
+              <span class="icon icon-delete"></span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="alert alert-info no-objects-found">
+    <%= Spree.t(:no_resource_found, resource: "Importaciones") %>.
+  </div>
+<% end %>

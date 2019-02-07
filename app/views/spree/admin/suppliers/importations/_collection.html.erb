@@ -1,0 +1,22 @@
+<% if collection.any? %>
+  <table class="table" id='listing_importations' data-hook>
+    <thead>
+      <tr data-hook="listing_importations_header">
+        <%= content_tag :th, Spree.t(:sku), class: 'text-center' %>
+        <%= content_tag :th, Spree.t(:date), class: 'text-center' %>
+        <%= content_tag :th, Spree.t(:status), class: 'text-center' %>
+      </tr>
+    </thead>
+    <tbody>
+      <% collection.each do |importation| %>
+        <tr id="<%= importation.id %>" data-hook="listing_importations_row">
+          <%= render 'importation_status', importation: importation %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="alert alert-info no-objects-found">
+    <%= Spree.t(:no_resource_found, resource: "Importaciones") %>.
+  </div>
+<% end %>
