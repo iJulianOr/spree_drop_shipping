@@ -8,9 +8,16 @@
 <%= render 'spree/admin/shared/suppliers_tabs', current: :products, submodule: '/ Productos' %>
 
 <%= form_for :products, url: admin_update_supplier_products_path do |f| %>
-  <%= label_tag 'Agregar Productos' %>
+  <%= label_tag 'Buscar Productos' %>
   <%= hidden_field_tag 'supplier[product_id]', @supplier.products.pluck(:id).join(','), class: "product_picker fullwidth" %>
-  <%= f.submit "Agregar", class: 'btn btn-success add-products' %>
+  <%= button_tag "Agregar", id: 'app-products',  class: ['btn btn-success add-products Weloading'], :data => {:loading => 'Agregando...'}  %>
 <% end %>
 
 <%= render 'collection', collection: @products %>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('app-products').addEventListener("click", function(){
+      loading_button(this)
+    });
+  }, false);
+</script>
