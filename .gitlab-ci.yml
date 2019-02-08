@@ -1,0 +1,14 @@
+stages:
+  - test
+
+before_script:
+  - gem install bundle
+  - bundle install
+  - rake test_app
+
+spec:services:
+  stage: test
+  script: 
+   - rspec spec/services
+  tags:
+    - ruby22

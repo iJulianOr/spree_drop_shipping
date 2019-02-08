@@ -5,7 +5,7 @@ module Spree
     has_many :orders, class_name: 'Spree::Order', as: :entity
     has_many :products, through: :catalogue
     has_many :shipping_methods, class_name: 'Spree::ShippingMethod', as: :entity, dependent: :destroy
-    has_many :importations, class_name: 'Spree::SupplierImportation'
+    has_many :importations, class_name: 'Spree::SupplierImportation', dependent: :destroy
 
     validates :name, uniqueness: { case_sensitive: false }
 
@@ -29,8 +29,6 @@ module Spree
       create_shipping_method('Andreani')
       # create_shipping_method('CorreoArgentino')
     end
-    
-    private
 
     def create_shipping_method(method)
       calculator = "Spree::Calculator::Shipping::#{method}".constantize.create!
