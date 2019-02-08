@@ -23,3 +23,12 @@ function reload_stock_items(id){
     }, 3000));
 }
 
+function loading_button(btn){
+    var form = btn.form;
+    if (form.checkValidity() == true){
+        var loading_text = btn.dataset.loading;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> ' + loading_text;
+        form.submit();
+    }
+}

@@ -4,7 +4,7 @@
       <%= hidden_field 'supplier', :id, value: f.object.id %>
       <%= f.field_container :name, :class => ['form-group'] do %>
         <%= f.label :name, Spree.t(:name) %> <span class="required">*</span>
-        <%= f.text_field :name, :class => 'form-control title validate[required]' %>
+        <%= f.text_field :name, :class => 'form-control title validate[required]', :required => 'required' %>
         <%= f.error_message_on :name %>
       <% end %>
     </div>
@@ -46,5 +46,13 @@
       </div>
     </div>
   </div>
-  <%= f.submit text, class: ['form-group btn btn-success'] %>
+  <%= button_tag "Crear Proveedor", id: 'create-supplier',  class: ['form-group btn btn-success'], :data => {:loading => 'Cargando...'}  %>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('create-supplier').addEventListener("click", function(){
+      loading_button(this)
+    });
+  }, false);
+</script>

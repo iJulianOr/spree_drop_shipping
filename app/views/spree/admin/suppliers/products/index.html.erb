@@ -9,8 +9,8 @@
 
 <%= form_for :products, url: admin_update_supplier_products_path do |f| %>
   <%= label_tag 'Agregar Productos' %>
-  <%= hidden_field_tag 'supplier[product_id]', nil, class: "product_picker fullwidth" %>
-  <%= f.submit "Ain't gonna implementtt", class: 'btn btn-primary' %>
+  <%= hidden_field_tag 'supplier[product_id]', @supplier.products.pluck(:id).join(','), class: "product_picker fullwidth" %>
+  <%= f.submit "Agregar", class: 'btn btn-success add-products' %>
 <% end %>
 
 <%= render 'collection', collection: @products %>

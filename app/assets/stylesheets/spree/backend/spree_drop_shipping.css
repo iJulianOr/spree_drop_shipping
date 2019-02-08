@@ -32,9 +32,11 @@ the installer will append this file to the app vendored assets here: 'vendor/ass
     transition: all 0.3s;
 }
 
-.stock-info .glyphicon-spin{
+.stock-info .glyphicon-spin,
+#create-supplier .glyphicon-spin {
     -webkit-animation: spin 1000ms infinite linear;
     animation: spin 1000ms infinite linear;
+    padding: 0;
 }
 
 @-webkit-keyframes spin {
@@ -72,4 +74,8 @@ the installer will append this file to the app vendored assets here: 'vendor/ass
 
 .panel-body{
     border-bottom: 1px solid #f7f7f7;
+}
+
+.btn.add-products {
+    margin: 20px 0;
 }

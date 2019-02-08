@@ -17,7 +17,6 @@
 <% else %>
   <div class="alert alert-info no-objects-found">
     <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::Supplier)) %>,
-    <%= link_to Spree.t(:add_one), new_object_url %>!
   </div>
 <% end %>
 
