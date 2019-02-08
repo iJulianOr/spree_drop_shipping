@@ -4,14 +4,14 @@
       <span class="glyphicon glyphicon-ok"></span> Stock actualizado con éxito
     </div>
 
-    <div class="panel panel-default">
+    <div class="panel panel-default panel-products">
       <div class="panel-heading"><%= Spree.t(:products) %></div>
       <div class="panel-body">
         <table class="table" id="listing_products">                                                                                                                                            
           <thead>
             <tr data-hook="admin_products_index_headers">
               <th><%= Spree.t(:name) %></th>
-              <%= content_tag :th, Spree.t(:stock), class: 'text-center' %>
+              <%= content_tag :th, Spree.t(:stock) %>
               <th data-hook="admin_products_index_header_actions" class="actions"></th>
             </tr>
           </thead>
@@ -19,7 +19,7 @@
             <% collection.each do |resource| %>
               <tr id="<%= spree_dom_id resource %>" data-hook="admin_products_index_rows" class="<%= cycle('odd', 'even') %>">
                 <td class="product-name"><%= link_to resource.try(:name), edit_admin_resource_path(resource) %></td>
-                <td class='text-center'>
+                <td>
                   <%= hidden_field_tag "supplier", resource.supplier.id %>
                   <%= label_tag "product_id_#{resource.id}" do %>
                     <%= number_field_tag "stock[#{resource.id}]", resource.stock_items.find_by(stock_location_id: @supplier.stock_location.id).count_on_hand, min: 0, autocomplete: 'off', onchange: "reload_stock_items(#{resource.id});", class: "form-control" %>
