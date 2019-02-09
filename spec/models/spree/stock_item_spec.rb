@@ -25,6 +25,7 @@ RSpec.describe Spree::StockItem, type: :model do
       product.reload
       expect(product.drop_shippeable?).to eq(false)
       product.stock_items.first.set_count_on_hand 10
+      product.reload
       expect(product.drop_shippeable?).to eq(true)
     end
   end
