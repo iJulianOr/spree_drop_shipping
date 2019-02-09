@@ -4,7 +4,7 @@ stages:
 before_script:
   - gem install bundle
   - bundle install
-  - rake test_app
+  - bundle exec rake test_app
 
 spec:services:
   stage: test
