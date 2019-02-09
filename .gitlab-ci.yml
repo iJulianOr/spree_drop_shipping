@@ -4,7 +4,7 @@ stages:
 before_script:
   - gem install bundle
   - bundle install
-  - DB=mysql MYSQLPASS='admin' bundle exec rake test_app
+  - DB=mysql DB_PASSWORD='admin' bundle exec rake test_app
 
 spec:services:
   stage: test
