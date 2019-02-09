@@ -1,3 +1,5 @@
+require 'csv'
+
 module Spree
   module Admin
     module Suppliers
@@ -20,6 +22,7 @@ module Spree
             importation = @supplier.importations.create!(status: 'pending')
             file = save_file
             Object::BackendImportation.import file, importation, @supplier
+            flash[:success] = 'Importación iniciada con éxito.'
             redirect_to :back
           end
         rescue StandardError => e

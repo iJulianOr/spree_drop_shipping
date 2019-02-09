@@ -71,20 +71,23 @@ RSpec.configure do |config|
   # to setup a test will be unavailable to the browser, which runs under a separate server instance.
   config.use_transactional_fixtures = false
 
-  # Ensure Suite is set to use transactions for speed.
-  config.before :suite do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with :truncation
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
   end
 
-  # Before each spec check if it is a Javascript test and switch between using database transactions or not where necessary.
-  config.before :each do
-    DatabaseCleaner.strategy = RSpec.current_example.metadata[:js] ? :truncation : :transaction
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, :js => true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
     DatabaseCleaner.start
   end
 
-  # After each spec clean the database.
-  config.after :each do
+  config.after(:each) do
     DatabaseCleaner.clean
   end
 
