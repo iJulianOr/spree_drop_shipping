@@ -17,16 +17,17 @@ RSpec.describe Spree::StockItem, type: :model do
   end
 
   context 'when no supplier is assigned' do
+    let(:product3) { create :product }
     it 'should return true on check supplier' do
       supplier = Spree::Supplier.create name: 'test'
-      supplier.catalogue.products.push product
-      product.stock_items.reload
+      supplier.catalogue.products.push product3
+      product3.stock_items.reload
       supplier.catalogue.products.clear
-      product.reload
-      expect(product.drop_shippeable?).to eq(false)
-      product.stock_items.first.set_count_on_hand 10
-      product.reload
-      expect(product.drop_shippeable?).to eq(true)
+      product3.reload
+      expect(product3.drop_shippeable?).to eq(false)
+      product3.stock_items.first.set_count_on_hand 10
+      product3.reload
+      expect(product3.drop_shippeable?).to eq(true)
     end
   end
 end
