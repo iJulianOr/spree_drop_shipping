@@ -19,7 +19,7 @@ class BackendImportation
     Thread.new do
       begin
         products_with_errors = process_import file, importation
-        save_import_errors(importation.reload, products_with_errors)
+        save_import_errors(importation, products_with_errors)
         importation.update_attributes!(status: 'success') if importation.status == 'pending'
       rescue StandardError
         importation.update_attributes! status: 'failed'
