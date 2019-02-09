@@ -18,11 +18,11 @@ RSpec.describe Spree::Admin::SuppliersHelper, type: :helper do
     let!(:supplier) { Spree::Supplier.create(name: 'Test') }
 
     it 'should return supplier path' do
-      expect(admin_resource_path(supplier)).to eq('/admin/suppliers/1')
+      expect(admin_resource_path(supplier)).to eq("/admin/suppliers/#{supplier.id}")
     end
     
     it 'should return supplier edit path' do
-      expect(edit_admin_resource_path(supplier)).to eq('/admin/suppliers/1/edit')
+      expect(edit_admin_resource_path(supplier)).to eq("/admin/suppliers/#{supplier.id}/edit")
     end
   end
 end
