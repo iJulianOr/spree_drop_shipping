@@ -26,7 +26,7 @@ RSpec.describe Spree::Supplier, type: :model do
   end
 
   context 'create associations' do
-    let!(:supplier) { Spree::Supplier.create(name: 'Test') }
+    let!(:supplier) { Spree::Supplier.create(name: 'Test', shipping_methods: [create(:shipping_method)]) }
     let!(:product) { create(:product_in_stock, name: 'Product 1 test', catalogues: [supplier.catalogue]) }
     let!(:order) { create(:order, entity: supplier) }
 
@@ -47,13 +47,30 @@ RSpec.describe Spree::Supplier, type: :model do
     end
 
     context ': orders' do
-      
       it 'should assign order' do
         expect(supplier.orders).not_to be_empty
       end
 
       it 'should respond to entity' do
         expect(order.entity?).to eq(true)
+      end
+
+      context 'hacky workaround to orders' do
+        before(:each) do
+          supplier.shipping_methods.push create(:shipping_method)
+          order.user = create :user
+          order.next
+          order.shipments.create
+          Spree::ShippingRate.create shipment_id: order.shipments.first.id, shipping_method_id: supplier.shipping_methods.first.id
+        end
+
+        it 'should return rates' do
+          expect(order.shipments.first.shipping_rates).not_to be_empty
+        end
+
+        it 'should return states' do
+          expect(order.shipments.states).not_to be_empty
+        end
       end
     end
 
