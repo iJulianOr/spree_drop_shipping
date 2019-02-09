@@ -35,7 +35,7 @@ describe Spree::Admin::Suppliers::ImportationsController, type: :controller do
     before do
       supplier.catalogue.products.push product
       supplier.catalogue.reload
-      @file = fixture_file_upload('files/dummy_file.csv', 'text/csv')
+      @file = fixture_file_upload('../../files/dummy_file.csv', 'text/csv')
     end
 
     it 'should upload file' do
