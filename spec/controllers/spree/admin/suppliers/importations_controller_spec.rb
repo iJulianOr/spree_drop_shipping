@@ -36,10 +36,17 @@ describe Spree::Admin::Suppliers::ImportationsController, type: :controller do
       supplier.catalogue.products.push product
       supplier.catalogue.reload
       @file = fixture_file_upload('files/dummy_file.csv', 'text/csv')
+      @empty_file = fixture_file_upload('files/dummy_empty_file.csv', 'text/csv')
+      @xlsx = fixture_file_upload('files/dummy_xlsx.xlsx')
     end
 
     it 'should upload file' do
-      spree_post :new, id: supplier.id, file: @file
+      spree_post :new, id: supplier.id, file: @file, no_thread: true
+      expect(flash[:success]).to be_present
+    end
+
+    it 'should success on empty file' do
+      spree_post :new, id: supplier.id, file: @empty_file
       expect(flash[:success]).to be_present
     end
 
@@ -56,6 +63,11 @@ describe Spree::Admin::Suppliers::ImportationsController, type: :controller do
     it 'should raise error on empty file' do
       spree_post :new, id: supplier.id, file: ''
       expect(flash[:error]).to be_present
+    end
+
+    it 'should parse xlsx file' do
+      spree_post :new, id: supplier.id, file: @xlsx
+      expect(flash[:success]).to be_present
     end
   end
 end

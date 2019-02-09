@@ -21,7 +21,7 @@ module Spree
           else
             importation = @supplier.importations.create!(status: 'pending')
             file = save_file
-            Object::BackendImportation.import file, importation, @supplier
+            Object::BackendImportation.import file, importation, @supplier, { no_thread: params[:no_thread] }
             flash[:success] = 'Importación iniciada con éxito.'
             redirect_to :back
           end

@@ -54,19 +54,19 @@ describe Spree::Admin::SuppliersController, type: :controller do
     let!(:supplier2) { Spree::Supplier.create(name: 'Test 3') }
 
     it 'should be able to put update' do
-      spree_put :update, id: 1, supplier: { id: 1, name: 'test 2', andreani: { username: 'testing' } }
+      spree_put :update, id: supplier.id, supplier: { id: supplier.id, name: 'test 2', andreani: { username: 'testing' } }
       expect(flash[:success]).to be_present
     end
 
     it 'should not allow repeated name' do
-      spree_put :update, id: 1, supplier: { id: 1, name: 'test 3', andreani: { username: 'testing' } }
+      spree_put :update, id: supplier.id, supplier: { id: supplier.id, name: 'test 3', andreani: { username: 'testing' } }
       expect(flash[:error]).to be_present
     end
   end
 
   context 'DELETE' do
     it 'should destroy supplier' do
-      spree_delete :destroy, id: 1
+      spree_delete :destroy, id: supplier.id
       expect { supplier.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
