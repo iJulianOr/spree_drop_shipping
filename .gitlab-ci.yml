@@ -3,7 +3,7 @@ stages:
   - codequality
 
 before_script:
-  - gem install bundle
+  - gem install bundler
   - bundle install
   - DB=mysql DB_PASSWORD='admin' bundle exec rake test_app
 
