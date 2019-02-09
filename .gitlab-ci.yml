@@ -9,6 +9,7 @@ before_script:
 spec:services:
   stage: test
   script: 
-   - rspec spec/services
+   - rspec spec
   tags:
     - ruby22
+  coverage: '/\(\d+.\d+\%\) covered/'
