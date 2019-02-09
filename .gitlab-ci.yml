@@ -9,7 +9,7 @@ before_script:
 spec:
   stage: test
   script: 
-   - rspec spec
+   - rspec spec --seed 41689
   tags:
     - ruby22
   coverage: '/\(\d+.\d+\%\) covered/'
