@@ -5,9 +5,7 @@ class BackendImportation
 
   def import(file, importation, supplier)
     @supplier = supplier
-    ActiveRecord::Base.connection.disconnect!
     Thread.new do
-      ActiveRecord::Base.establish_connection
       begin
         products_with_errors = process_import file, importation
         save_import_errors(importation.reload, products_with_errors)
@@ -16,7 +14,6 @@ class BackendImportation
         importation.update_attributes! status: 'failed'
       end
     end
-    ActiveRecord::Base.establish_connection
   end
 
   def process_import(file, importation, products_with_errors = [])
