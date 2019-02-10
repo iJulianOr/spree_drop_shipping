@@ -92,6 +92,6 @@ class BackendImportation
 
   def save_import_status(importation, status)
     importation.status = status unless status == 'success' && importation.status == 'warning'
-    importation.save!
+    importation.save rescue nil
   end
 end
