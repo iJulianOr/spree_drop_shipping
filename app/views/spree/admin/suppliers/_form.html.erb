@@ -7,6 +7,11 @@
         <%= f.text_field :name, :class => 'form-control title validate[required]', :required => 'required' %>
         <%= f.error_message_on :name %>
       <% end %>
+      <%= f.field_container :email, :class => ['form-group'] do %>
+        <%= f.label :email, Spree.t(:email) %> <span class="required">*</span>
+        <%= f.text_field :email, :class => 'form-control title validate[required]', :required => 'required' %>
+        <%= f.error_message_on :email %>
+      <% end %>
     </div>
   </div>
   <div class='row'>                                     

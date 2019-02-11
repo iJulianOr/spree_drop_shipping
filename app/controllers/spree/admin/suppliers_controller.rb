@@ -77,7 +77,7 @@ module Spree
       end
 
       def supplier_params
-        params.require(:supplier).permit(:name)
+        params.require(:supplier).permit(:name, :email)
       end
 
       def andreani_params
