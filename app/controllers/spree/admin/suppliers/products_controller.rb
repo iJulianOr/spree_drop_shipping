@@ -2,7 +2,7 @@ module Spree
   module Admin
     module Suppliers
       class ProductsController < Spree::Admin::BaseController
-        before_filter :load_supplier, only: [:index, :update]
+        before_filter :load_supplier, only: [:index, :update, :destroy]
 
         def load_supplier
           @supplier = Spree::Supplier.find(params[:id])
@@ -10,6 +10,12 @@ module Spree
         end
 
         def index; end
+
+        def destroy
+          @supplier.catalogue.products = @products - [@products.find(params[:product_id])]
+          flash[:success] = 'Producto borrado con éxito.'
+          redirect_to :back
+        end
 
         def change_stock
           supplier_id = params[:supplier].to_i

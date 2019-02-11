@@ -27,7 +27,7 @@
                 </td>
                 <td class='text-right'>
                   <%= link_to_edit resource, no_text: true, class: 'edit', url: edit_admin_resource_path(resource) if can?(:edit, resource) %>
-                  <%= link_to(admin_resource_path(resource), method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: "¿Estás seguro de que deseas eliminar a #{resource.name}?" }) do %>
+                  <%= link_to(admin_delete_supplier_products_path(resource.supplier.id, product_id: resource.id), method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: "¿Estás seguro de que deseas eliminar a #{resource.name}?" }) do %>
                     <span class="icon icon-delete"></span>
                   <% end %>
                 </td>
