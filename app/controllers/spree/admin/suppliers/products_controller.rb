@@ -18,12 +18,11 @@ module Spree
         end
 
         def change_stock
-          supplier_id = params[:supplier].to_i
-          supplier = Spree::Supplier.find(supplier_id)
+          supplier = Spree::Supplier.find(params[:id])
           stock_location = supplier.stock_location
           products = params[:stock]
           products.map do |product, stock|
-            set_count_on_hand_for(product.to_i, stock.to_i, stock_location)
+            set_count_on_hand_for(product, stock.to_i, stock_location)
           end
           redirect_to :back, alert: 'Producto cargado con éxito'
         end

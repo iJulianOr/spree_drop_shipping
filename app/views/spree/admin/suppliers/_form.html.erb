@@ -1,7 +1,7 @@
 <div id='carga_suppliers'>                                     
   <div class='row'>                                     
     <div class="col-md-12">
-      <%= hidden_field 'supplier', :id, value: f.object.id %>
+      <%= hidden_field 'supplier', :id, value: @supplier.id %>
       <%= f.field_container :name, :class => ['form-group'] do %>
         <%= f.label :name, Spree.t(:name) %> <span class="required">*</span>
         <%= f.text_field :name, :class => 'form-control title validate[required]', :required => 'required' %>

@@ -10,7 +10,7 @@ module Spree
     # then it cannot be drop shipped.
     # In a future it may have some other conditions
     def drop_shippeable?
-      supplier && supplier.shipping_methods.any? && stock_items.find_by(stock_location_id: supplier.stock_location.id).count_on_hand.zero?
+      supplier && supplier.shipping_methods.any?
     end
 
     def supplier
