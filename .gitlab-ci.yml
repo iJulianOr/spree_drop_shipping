@@ -11,6 +11,8 @@ build:
   script:
     - bundle install
     - bundle exec rake test_app
+  artifacts:
+    paths: [spec/dummy]
 
 spec:
   stage: test
