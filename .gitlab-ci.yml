@@ -19,8 +19,11 @@ best_practices:
   stage: best_practices
   script:
     - rails_best_practices .
+  tags:
+    - ruby22
 
 codequality:
+  stage: codequality
   image: docker:stable
   variables:
     DOCKER_DRIVER: overlay2
