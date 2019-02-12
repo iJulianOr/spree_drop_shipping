@@ -11,8 +11,10 @@ build:
   script:
     - bundle install
     - bundle exec rake test_app
-  artifacts:
-    paths: [spec/dummy]
+  cache:
+    key: gems
+    paths:
+      - spec/dummy
 
 spec:
   stage: test
@@ -21,8 +23,11 @@ spec:
   tags:
     - ruby22
   coverage: '/\(\d+.\d+\%\) covered/'
-  artifacts:
-    paths: [spec/dummy]
+  cache:
+    key: gems
+    paths:
+      - spec/dummy
+    policy: pull
 
 best_practices:
   stage: best_practices
@@ -30,8 +35,11 @@ best_practices:
     - rails_best_practices .
   tags:
     - ruby22
-  artifacts:
-    paths: [spec/dummy]
+  cache:
+    key: gems
+    paths:
+      - spec/dummy
+    policy: pull
 
 codequality:
   stage: codequality
