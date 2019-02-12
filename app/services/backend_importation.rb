@@ -18,9 +18,7 @@ class BackendImportation
   def use_thread(file, importation, supplier)
     Thread.new do
       begin
-        products_with_errors = process_import file, importation
-        save_import_errors(importation, products_with_errors)
-        importation.update_attributes!(status: 'success') if importation.status == 'pending'
+        begin_importation(file, importation, supplier)
       rescue StandardError
         importation.update_attributes! status: 'failed'
       end
@@ -28,11 +26,15 @@ class BackendImportation
   end
 
   def no_thread(file, importation, supplier)
-    products_with_errors = process_import file, importation
-    save_import_errors(importation.reload, products_with_errors)
-    importation.update_attributes!(status: 'success') if importation.status == 'pending'
+    begin_importation(file, importation, supplier)
   rescue StandardError
     importation.update_attributes! status: 'failed'
+  end
+
+  def begin_importation(file, importation, supplier)
+    products_with_errors = process_import file, importation
+    save_import_errors(importation, products_with_errors)
+    importation.update_attributes!(status: 'success') if importation.status == 'pending'
   end
 
   def process_import(file, importation, products_with_errors = [])

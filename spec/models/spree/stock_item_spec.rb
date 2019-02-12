@@ -24,7 +24,7 @@ RSpec.describe Spree::StockItem, type: :model do
       product3.stock_items.reload
       supplier.catalogue.products.clear
       product3.reload
-      expect(product3.drop_shippeable?).to eq(false)
+      expect(product3.drop_shippeable?).to eq(nil)
       product3.stock_items.find_by(stock_location_id: supplier.stock_location.id).set_count_on_hand 10
       product3.reload
       expect(product3.drop_shippeable?).to eq(true)
