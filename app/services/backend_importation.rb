@@ -1,5 +1,7 @@
 require 'roo'
 
+# Need Error refactor -- don't want to raise StandardError everytime
+# that's risky
 class BackendImportation
   def self.import(*args)
     new.import *args
@@ -7,34 +9,26 @@ class BackendImportation
 
   def import(file, importation, supplier, *opts)
     @supplier = supplier
-    if opts.first[:no_thread]
-      no_thread file, importation, supplier
-    else
-      use_thread file, importation, supplier 
-    end
-    
+    return no_thread file, importation if opts.first[:no_thread]
+    use_thread file, importation
   end
 
-  def use_thread(file, importation, supplier)
+  def use_thread(file, importation)
     Thread.new do
-      begin
-        begin_importation(file, importation, supplier)
-      rescue StandardError
-        importation.update_attributes! status: 'failed'
-      end
+      begin_importation(file, importation)
     end
   end
 
-  def no_thread(file, importation, supplier)
-    begin_importation(file, importation, supplier)
-  rescue StandardError
-    importation.update_attributes! status: 'failed'
+  def no_thread(file, importation)
+    begin_importation(file, importation)
   end
 
-  def begin_importation(file, importation, supplier)
+  def begin_importation(file, importation)
     products_with_errors = process_import file, importation
     save_import_errors(importation, products_with_errors)
     importation.update_attributes!(status: 'success') if importation.status == 'pending'
+  rescue StandardError
+    importation.update_attributes! status: 'failed'
   end
 
   def process_import(file, importation, products_with_errors = [])
@@ -43,7 +37,7 @@ class BackendImportation
     rows.map do |row|
       begin
         next if row.first =~ /sku/i
-        import_products row, importation
+        import_product row
       rescue StandardError
         products_with_errors << row.first
         save_import_status(importation, 'warning')
@@ -54,7 +48,7 @@ class BackendImportation
     products_with_errors
   end
 
-  def import_products(row, importation)
+  def import_product(row)
     product = @supplier.products.joins(:master).find_by('spree_variants.sku': row.first)
     product ||= Spree::Product.joins(:master).find_by('spree_variants.sku': row.first)
     raise StandardError unless product

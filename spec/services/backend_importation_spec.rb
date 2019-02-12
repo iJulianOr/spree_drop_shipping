@@ -17,7 +17,7 @@ describe BackendImportation, type: :model do
 
     it 'should raise failure on use_thread' do
       importation = Spree::SupplierImportation.create(status: 'pending')
-      @s_importation.no_thread(nil, importation, nil)
+      @s_importation.no_thread(nil, importation)
       expect(importation.status).to eq('failed')
     end
 
