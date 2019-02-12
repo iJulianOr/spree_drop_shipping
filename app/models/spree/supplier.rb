@@ -24,7 +24,7 @@ module Spree
       self.stock_location = Spree::StockLocation.create(name: name)
       save!
     end
-    
+
     def create_shipping_methods
       create_shipping_method('Andreani')
       # create_shipping_method('CorreoArgentino')

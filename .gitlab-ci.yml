@@ -1,5 +1,6 @@
 stages:
   - test
+  - best_practices
   - codequality
 
 before_script:
@@ -13,6 +14,11 @@ spec:
   tags:
     - ruby22
   coverage: '/\(\d+.\d+\%\) covered/'
+
+best_practices:
+  stage: best_practices
+  script:
+    - rails_best_practices .
 
 codequality:
   image: docker:stable

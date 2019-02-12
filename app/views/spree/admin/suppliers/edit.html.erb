@@ -1,14 +1,14 @@
-<% content_for :page_actions do %> 
-  <%= button_link_to 'Volver al listado', admin_suppliers_path, { class: "btn-primary", icon: 'arrow-left', id: 'admin_suppliers' } %> 
-  <% if can?(:create, Spree::Supplier) %> 
-    <%= button_link_to 'Nuevo Proveedor', new_admin_supplier_path, { class: "btn-success", icon: 'add', id: 'admin_new_supplier' } %> 
-  <% end %> 
-<% end %> 
+<% content_for :page_actions do %>
+  <%= button_link_to 'Volver al listado', admin_suppliers_path, { class: "btn-primary", icon: 'arrow-left', id: 'admin_suppliers' } %>
+  <% if can?(:create, Spree::Supplier) %>
+    <%= button_link_to 'Nuevo Proveedor', new_admin_supplier_path, { class: "btn-success", icon: 'add', id: 'admin_new_supplier' } %>
+  <% end %>
+<% end %>
 
-<%= render 'spree/admin/shared/suppliers_tabs', current: :details, submodule: nil %>
- 
-<%= form_for [:admin, @supplier], url: {action: :update}, method: :put, html: { multipart: true } do |f| %> 
-  <fieldset> 
-    <%= render partial: 'form', locals: { f: f, text: 'Actualizar Proveedor' } %> 
-  </fieldset> 
+<%= render 'spree/admin/shared/suppliers_tabs', current: :details, submodule: nil, supplier: @supplier %>
+
+<%= form_for [:admin, @supplier], url: {action: :update}, method: :put, html: { multipart: true } do |f| %>
+  <fieldset>
+    <%= render 'form', f: f, text: 'Actualizar Proveedor', supplier: @supplier, andreani: @andreani %>
+  </fieldset>
 <% end %>

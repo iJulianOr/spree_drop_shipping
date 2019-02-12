@@ -1,7 +1,7 @@
-<div id='carga_suppliers'>                                     
-  <div class='row'>                                     
+<div id='carga_suppliers'>
+  <div class='row'>
     <div class="col-md-12">
-      <%= hidden_field 'supplier', :id, value: @supplier.id %>
+      <%= hidden_field 'supplier', :id, value: supplier.id %>
       <%= f.field_container :name, :class => ['form-group'] do %>
         <%= f.label :name, Spree.t(:name) %> <span class="required">*</span>
         <%= f.text_field :name, :class => 'form-control title validate[required]', :required => 'required' %>
@@ -14,7 +14,7 @@
       <% end %>
     </div>
   </div>
-  <div class='row'>                                     
+  <div class='row'>
     <div class="col-md-6">
       <div class="panel panel-default">
         <div class="panel-heading">Datos de Andreani</div>
@@ -22,19 +22,19 @@
           <div>
             <div class='form-group col-md-6'>
               <%= label_tag 'Usuario', nil %>
-              <%= text_field_tag 'supplier[andreani][username]', @andreani.try(:preferences).try(:fetch, :username), class: 'form-control' %>
+              <%= text_field_tag 'supplier[andreani][username]', andreani.try(:preferences).try(:fetch, :username), class: 'form-control' %>
             </div>
             <div class='form-group col-md-6'>
               <%= label_tag 'Contraseña', nil %>
-              <%= password_field_tag 'supplier[andreani][password]', @andreani.try(:preferences).try(:fetch, :password), class: 'form-control' %>
+              <%= password_field_tag 'supplier[andreani][password]', andreani.try(:preferences).try(:fetch, :password), class: 'form-control' %>
             </div>
             <div class='form-group col-md-6'>
               <%= label_tag 'Contrato', nil %>
-              <%= text_field_tag 'supplier[andreani][contrato]', @andreani.try(:preferences).try(:fetch, :contrato), class: 'form-control' %>
+              <%= text_field_tag 'supplier[andreani][contrato]', andreani.try(:preferences).try(:fetch, :contrato), class: 'form-control' %>
             </div>
             <div class='form-group col-md-6'>
               <%= label_tag 'Número de Cliente' %>
-              <%= text_field_tag 'supplier[andreani][cliente]', @andreani.try(:preferences).try(:fetch, :cliente), class: 'form-control' %>
+              <%= text_field_tag 'supplier[andreani][cliente]', andreani.try(:preferences).try(:fetch, :cliente), class: 'form-control' %>
             </div>
           </div>
         </div>
@@ -45,13 +45,13 @@
         <div class="panel-heading">Datos de Correo Argentino</div>
         <div class="panel-body">
           <p class='text-center'>
-            Próximamente 
+            Próximamente
           </p>
         </div>
       </div>
     </div>
   </div>
-  <%= button_tag "Crear Proveedor", id: 'create-supplier',  class: ['form-group btn btn-success Weloading'], :data => {:loading => 'Cargando...'}  %>
+  <%= button_tag "Crear Proveedor", id: 'create-supplier',  class: ['form-group btn btn-success Weloading'], :data => {:loading => 'Cargando...'} %>
 </div>
 
 <script>

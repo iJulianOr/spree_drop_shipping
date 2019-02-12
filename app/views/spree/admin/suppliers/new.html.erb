@@ -1,13 +1,13 @@
-<% content_for :page_title do %> 
-  <%= 'Proveedores' %> 
-<% end %> 
+<% content_for :page_title do %>
+  <%= 'Proveedores' %>
+<% end %>
 
-<% content_for :page_actions do %> 
-  <%= button_link_to 'Volver al listado', admin_suppliers_path, { class: "btn-primary", icon: 'arrow-left', id: 'admin_suppliers' } %> 
-<% end %> 
+<% content_for :page_actions do %>
+  <%= button_link_to 'Volver al listado', admin_suppliers_path, { class: "btn-primary", icon: 'arrow-left', id: 'admin_suppliers' } %>
+<% end %>
 
-<%= form_for [:admin, @supplier], url: {action: :create}, method: :post, html: { multipart: true } do |f| %> 
-  <fieldset> 
-    <%= render partial: 'form', locals: { f: f, text: 'Crear Proveedor' } %> 
-  </fieldset> 
+<%= form_for [:admin, @supplier], url: {action: :create}, method: :post, html: { multipart: true } do |f| %>
+  <fieldset>
+    <%= render 'form', f: f, text: 'Crear Proveedor', supplier: @supplier, andreani: @andreani %>
+  </fieldset>
 <% end %>
