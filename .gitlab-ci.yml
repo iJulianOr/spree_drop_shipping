@@ -21,6 +21,8 @@ spec:
   tags:
     - ruby22
   coverage: '/\(\d+.\d+\%\) covered/'
+  artifacts:
+    paths: [spec/dummy]
 
 best_practices:
   stage: best_practices
@@ -28,6 +30,8 @@ best_practices:
     - rails_best_practices .
   tags:
     - ruby22
+  artifacts:
+    paths: [spec/dummy]
 
 codequality:
   stage: codequality
