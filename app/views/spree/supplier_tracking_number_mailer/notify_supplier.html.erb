@@ -1,0 +1,287 @@
+<table class="row header">
+  <tr>
+    <td>
+      <table class="container">
+        <tr>
+          <td class="wrapper" style="text-align:center">
+            <p class="lede" style="font-size:24px;text-align:center">
+              <%= image_tag("#{root_url}/images/icon_ok_email.jpg", style: 'float:none;display:inline', width: '20', height: '20') %>
+
+              <b><%= @order.billing_address.firstname if !@order.billing_address.nil? %>,</b> <%= Spree.t('order_mailer.confirm_email.dear_customer') %>  
+            </p>
+            <p style="font-size:14x; color:#666666;text-align:center">
+              <%= Spree.t('order_mailer.confirm_email.instructions') %>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="background-color:#0075ad; padding:8px 5px; color:#ffffff; text-transform:uppercase">
+            <%= Spree.t('order_mailer.confirm_email.order_summary', number: @order.number) %>
+          </td>
+        </tr>
+      </table>
+
+      <table class="container">
+        <tr>
+          <td class="wrapper last">
+            <table  border=0 cellspacing=0 cellpadding=0 class="twelve columns">
+              <tr>
+                <th class="seven sub-columns" style="padding-top:10px;" ><span><%= Spree.t(:product) %></span></th>
+                <th style="text-align:right;padding-top:10px;" class="five sub-columns last right">
+                  <span><%= Spree.t(:total) %></span>
+                </th>
+              </tr>
+              <tr>
+                <td colspan="2"><hr style="margin:0px 0; color:#eee;background-color:#a6a6a6; min-height:1px"></td>
+              </tr>
+
+              <%= render collection: @order.line_items, partial: 'spree/shared/mailer_line_item', as: :line_item %>
+              <%= render 'spree/order_mailer/subtotal', order: @order %>
+
+              <% if @order.line_item_adjustments.exists? %>
+                <% if @order.all_adjustments.promotion.eligible.exists? %>
+                  <% @order.all_adjustments.promotion.eligible.group_by(&:label).each do |label, adjustments| %>
+                    <tr>
+                      <td class="seven sub-columns">
+                        <span style=" font-size:13px; color:#000000"> <%= Spree.t(:promotion) %> <%= label %>:</span>
+                      </td>
+                      <td class="five sub-columns last right" style="text-align:right">
+                        <span style=" font-size:13px; color:#000000">  <%= Spree::Money.new(adjustments.sum(&:amount), currency: @order.currency) %></span>
+                      </td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <% @order.shipments.group_by { |s| s.selected_shipping_rate.try(:name) }.each do |name, shipments| %>
+                <tr>
+                  <td class="seven sub-columns">
+                    <span style=" font-size:13px; color:#000000"> <%= Spree.t(:shipping) %> <%= name %>:</span>
+                  </td>
+                  <td class="five sub-columns last right" style="text-align:right">
+                    <span style=" font-size:13px; color:#000000">
+                      <%= Spree::Money.new(shipments.sum(&:discounted_cost), currency: @order.currency) %>
+                    </span>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if @order.all_adjustments.eligible.tax.exists? %>
+                <% @order.all_adjustments.eligible.tax.group_by(&:label).each do |label, adjustments| %>
+                  <tr>
+                    <td class="seven sub-columns">
+                      <span style=" font-size:13px; color:#000000"> <%= Spree.t(:tax) %> <%= label %>:</span>
+                    </td>
+                    <td class="five sub-columns last right" style="text-align:right">
+                      <span style=" font-size:13px; color:#000000"> <%= Spree::Money.new(adjustments.sum(&:amount), currency: @order.currency) %></span>
+                    </td>
+                  </tr>
+                <% end %>
+              <% end %>
+
+              <% @order.adjustments.eligible.each do |adjustment| %>
+                <% next if (adjustment.source_type == 'Spree::TaxRate') || (adjustment.amount == 0) %>
+                <%= render 'spree/order_mailer/adjustment', adjustment: adjustment %>
+              <% end %>
+
+              <%= render 'spree/order_mailer/total', order: @order %>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="background-color:#0075ad; padding:8px 5px; color:#ffffff; text-transform:uppercase">
+            AGENTE OFICIAL HOGARNET
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-top:5px; padding-bottom:5px;">
+            <span style=" font-size:13px; color:#000000"> <b>Nombre:</b>  <%= @order.retailer.name %></span>
+          </td>
+        </tr>
+        <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+        <tr>
+          <td style="padding-top:5px; padding-bottom:5px;">
+            <span style=" font-size:13px; color:#000000"> <b><%= Spree.t('order_mailer.confirm_email.adress') %></b> <%= @order.retailer.subsidiaries.first.dir_exacta %></span>
+          </td>
+        </tr>
+        <% if @order.retailer.email %>
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+          <tr>
+            <td style="padding-top:5px; padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b>Email:</b>  <%= @order.retailer.email.to_s %></span>
+            </td>
+          </tr>
+        <% end %>
+
+        <% if(!@order.billing_address.nil? && !@order.shipping_address.nil?) && (@order.billing_address.same_as?@order.shipping_address) %>
+
+          <tr>
+            <td style="background-color:#0075ad; padding:8px 5px; color:#ffffff; text-transform:uppercase">
+              <%= Spree.t('order_mailer.confirm_email.billing_shipping_information') %>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-top:5px; padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b><%= Spree.t('order_mailer.confirm_email.name_lastname') %>:</b> <%= @order.billing_address.firstname %> <%= @order.billing_address.lastname %></span>
+            </td>
+          </tr>
+
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b> <%= Spree.t('order_mailer.confirm_email.dni') %>:</b> <%= @order.billing_address.dni %></span>
+            </td>
+          </tr>
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b> <%= Spree.t('order_mailer.confirm_email.phone') %>:</b> <%= @order.billing_address.phone %></span>
+            </td>
+          </tr>
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b> <%= Spree.t('order_mailer.confirm_email.adress') %>:</b> <%= @order.billing_address.address1 %> <%= @order.billing_address.address2 %> <%= @order.billing_address.floor %> <%= @order.billing_address.department %></span>
+            </td>
+          </tr>
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"><%= @order.billing_address.state.name %> - <%= @order.billing_address.city %> (<%= Spree.t('order_mailer.confirm_email.cp') %> <%= @order.billing_address.zipcode %>)</span>
+            </td>
+          </tr>
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b> <%= Spree.t('order_mailer.confirm_email.method_pay') %>:</b> <%= @order.payments.last.payment_method.name %></span>
+            </td>
+          </tr>
+
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b> <%= Spree.t('order_mailer.confirm_email.method_shipping') %>:</b> <%=   @order.shipments.last.shipping_method.name %></span>
+            </td>
+          </tr>
+
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+
+        <% elsif (!@order.billing_address.nil? && !@order.shipping_address.nil?) %>
+
+          <tr>
+            <td style="background-color:#0075ad; padding:8px 5px; color:#ffffff; text-transform:uppercase">
+              Datos para facturación y coordinación de entrega de producto
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-top:5px; padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b><%= Spree.t('order_mailer.confirm_email.name_lastname') %>:</b> <%= @order.billing_address.firstname %> <%= @order.billing_address.lastname %></span>
+            </td>
+          </tr>
+
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b><%= Spree.t('order_mailer.confirm_email.dni') %>:</b> <%= @order.billing_address.dni %></span>
+            </td>
+          </tr>
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b><%= Spree.t('order_mailer.confirm_email.phone') %>:</b> <%= @order.billing_address.phone %></span>
+            </td>
+          </tr>
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b><%= Spree.t('order_mailer.confirm_email.adress') %>:</b> <%= @order.billing_address.address1 %> <%= @order.billing_address.address2 %> <%= @order.billing_address.floor %> <%= @order.billing_address.department %></span>
+            </td>
+          </tr>
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"><%= @order.billing_address.state.name %> - <%= @order.billing_address.city %> (<%= Spree.t('order_mailer.confirm_email.cp') %> <%= @order.billing_address.zipcode %>)</span>
+            </td>
+          </tr>
+
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b><%= Spree.t('order_mailer.confirm_email.method_pay') %>:</b> <%= @order.payments.last.payment_method.name %></span>
+            </td>
+          </tr>
+
+
+          <tr>
+            <td style="background-color:#0075ad; padding:8px 5px; color:#ffffff; text-transform:uppercase">
+              <%= Spree.t('order_mailer.confirm_email.shipping_information') %>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-top:5px; padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b><%= Spree.t('order_mailer.confirm_email.name_lastname') %>:</b> <%= @order.shipping_address.firstname %> <%= @order.shipping_address.lastname %></span>
+            </td>
+          </tr>
+
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b><%= Spree.t('order_mailer.confirm_email.dni') %>:</b> <%= @order.shipping_address.dni %></span>
+            </td>
+          </tr>
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b><%= Spree.t('order_mailer.confirm_email.phone') %>:</b> <%= @order.shipping_address.phone %></span>
+            </td>
+          </tr>
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b><%= Spree.t('order_mailer.confirm_email.adress') %>:</b> <%= @order.shipping_address.address1 %> <%= @order.shipping_address.address2 %> <%= @order.shipping_address.floor %> <%= @order.shipping_address.department %></span>
+            </td>
+          </tr>
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"><%= @order.shipping_address.state.name %> - <%= @order.shipping_address.city %> (<%= Spree.t('order_mailer.confirm_email.cp') %> <%= @order.shipping_address.zipcode %>)</span>
+            </td>
+          </tr>
+          <tr><td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td></tr>
+
+          <tr>
+            <td style="padding-bottom:5px;">
+              <span style=" font-size:13px; color:#000000"> <b><%= Spree.t('order_mailer.confirm_email.method_shipping') %>:</b> <%=   @order.shipments.last.shipping_method.name %></span>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-bottom:5px;"><hr style="margin:0px 0; color:#ddd;background-color:#ddd; min-height:1px"></td>
+          </tr>
+
+        <% end %>
+
+      </table>
+
+      <p style="font-size:14x; color:#666666; text-align:center; padding-top:20px;">
+        Recuerda que para retirar tu compra en sucursal o recibirlo en domicilio, será necesario que presentes la siguiente información:<br>
+        Copia de este e-mail impreso<br>
+        DNI del Titular de la compra.<br>
+        Tarjeta de Credito utilizada en la compra.
+        <br><br>
+        Si tenes consultas escribinos a: <a href="<%= root_url %>contacto">contacto@hogarnet.com.ar</a>
+        <br><br>
+        <%= Spree.t('order_mailer.confirm_email.thanks') %>
+      </p>
+    </td>
+    <td class="expander"></td>
+  </tr>
+</table>
