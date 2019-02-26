@@ -18,7 +18,7 @@ module Spree
 
     def notify_supplier!
       shipping_method = order.shipments.last.shipping_method
-      return unless shipping_method.calculator_type == 'Spree::Calculator::Shipping::Andreani' && order.supplier
+      return unless shipping_method.calculator_type == 'Spree::Calculator::Shipping::Andreani' && order.entity
       preferences = shipping_method.calculator.preferences
       pdf         = SpreeAndreaniShipment::AndreaniWS.new.link_impresion(numero: order.number,
                                                                          username: preferences[:username],
