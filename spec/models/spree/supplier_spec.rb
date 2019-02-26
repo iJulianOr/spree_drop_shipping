@@ -79,7 +79,12 @@ RSpec.describe Spree::Supplier, type: :model do
         expect(supplier.products).not_to be_empty
       end
 
-      it 'should be drop shippeable' do
+      it 'should not be drop shippeable' do
+        expect(product.drop_shippeable?).to eq(false)
+      end
+
+      it 'should be drop shippeable if have stock' do
+        product.stock_items.find_by(stock_location_id: supplier.stock_location.id).set_count_on_hand(1)
         expect(product.drop_shippeable?).to eq(true)
       end
 
