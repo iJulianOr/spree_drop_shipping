@@ -114,7 +114,7 @@
           </tr>
         <% end %>
 
-        <% if(!@order.billing_address.nil? && !@order.shipping_address.nil?) && (@order.billing_address.same_as?@order.shipping_address) %>
+        <% if(!@order.billing_address.nil? && !@order.shipping_address.nil?) && (@order.billing_address.same_as?(@order.shipping_address)) %>
 
           <tr>
             <td style="background-color:#0075ad; padding:8px 5px; color:#ffffff; text-transform:uppercase">

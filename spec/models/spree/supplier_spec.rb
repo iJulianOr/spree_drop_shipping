@@ -27,7 +27,7 @@ RSpec.describe Spree::Supplier, type: :model do
 
   context 'create associations' do
     let!(:supplier) { Spree::Supplier.create(name: 'Test', shipping_methods: [create(:shipping_method)]) }
-    let!(:product) { create(:product_in_stock, name: 'Product 1 test', catalogues: [supplier.catalogue]) }
+    let!(:product) { create(:product_in_stock, price: 10, name: 'Product 1 test', catalogues: [supplier.catalogue]) }
     let!(:order) { create(:order, entity: supplier) }
 
     it 'should be created with catalogue' do
@@ -70,6 +70,10 @@ RSpec.describe Spree::Supplier, type: :model do
 
         it 'should return states' do
           expect(order.shipments.states).not_to be_empty
+        end
+
+        it 'should update order and payment' do
+          debugger
         end
       end
     end
