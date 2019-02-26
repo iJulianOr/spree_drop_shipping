@@ -20,9 +20,9 @@ module Spree
       shipping_method = order.shipments.last.shipping_method
       return unless shipping_method.calculator_type == 'Spree::Calculator::Shipping::Andreani' && order.entity
       preferences = shipping_method.calculator.preferences
-      pdf         = SpreeAndreaniShipment::AndreaniWS.new.link_impresion(numero: order.number,
+      pdf         = SpreeAndreaniShipment::AndreaniWS.new.link_impresion(numero: order.shipments.last.tracking,
                                                                          username: preferences[:username],
-                                                                         password: preferences[:password])
+                                                                         password: preferences[:password]) rescue nil
       Spree::SupplierTrackingNumberMailer.notify_supplier(pdf, order).deliver_now
     end
   end
