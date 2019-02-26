@@ -13,14 +13,14 @@ module Spree
 
         def destroy
           @supplier.catalogue.products = @products - [@products.find(params[:product_id])]
-          flash[:success] = 'Producto borrado con éxito.'
+          flash[:success]              = 'Producto borrado con éxito.'
           redirect_to :back
         end
 
         def change_stock
-          supplier = Spree::Supplier.find(params[:id])
+          supplier       = Spree::Supplier.find(params[:id])
           stock_location = supplier.stock_location
-          products = params[:stock]
+          products       = params[:stock]
           products.map do |product, stock|
             set_count_on_hand_for(product, stock.to_i, stock_location)
           end
@@ -29,7 +29,7 @@ module Spree
 
         def update
           product_ids = product_params[:product_id].split(',')
-          products = Spree::Product.with_deleted.where(id: product_ids).where.not(id: @supplier.catalogue.products.pluck(:id))
+          products    = Spree::Product.with_deleted.where(id: product_ids).where.not(id: @supplier.catalogue.products.pluck(:id))
           @supplier.catalogue.products << products
           @supplier.catalogue.save
           redirect_to :back

@@ -4,7 +4,7 @@ module Spree
     has_one :product, through: :variant
 
     def check_supplier
-      return unless stock_location.entity_type == 'Spree::Supplier' && !product.drop_shippeable?
+      return unless stock_location.entity_type == 'Spree::Supplier' && !product.supplier
       product.supplier = stock_location.entity
       product.save
     end
