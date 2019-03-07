@@ -19,11 +19,16 @@ module Spree
     def notify_supplier!
       shipping_method = order.shipments.last.shipping_method
       return unless shipping_method
-      return unless shipping_method.calculator_type == 'Spree::Calculator::Shipping::Andreani' && order.entity
-      preferences = shipping_method.calculator.preferences
-      pdf         = SpreeAndreaniShipment::AndreaniWS.new.link_impresion(numero: order.shipments.last.tracking,
+      if shipping_method.calculator_type == 'Spree::Calculator::Shipping::Andreani' && order.entity
+        preferences = shipping_method.calculator.preferences
+        pdf         = SpreeAndreaniShipment::AndreaniWS.new.link_impresion(numero: order.shipments.last.tracking,
                                                                          username: preferences[:username],
                                                                          password: preferences[:password]) rescue nil
+      elsif shipping_method.calculator_type == 'Spree::Calculator::Shipping::CorreoArgentino' && order.entity
+        preferences = shipping_method.calculator.preferences
+        pdf         = SpreeCorreoArgentino::CorreoArgentinoWS.new(preferences).link_impresion(numero: order.shipments.last.tracking) rescue nil
+      end
+      return unless pdf
       Spree::SupplierTrackingNumberMailer.notify_supplier(pdf, order).deliver_now
     end
   end
