@@ -12,6 +12,7 @@ module Spree
       def update
         if @supplier.update_attributes supplier_params
           update_andreani
+          update_correo
           success_path
         else
           fail_path
@@ -75,6 +76,11 @@ module Spree
         @andreani.preferences.merge! andreani_params
         @andreani.save
       end
+      
+      def update_correo
+        @correo.preferences.merge! correo_params
+        @correo.save
+      end
 
       def supplier_params
         params.require(:supplier).permit(:name, :email)
@@ -82,6 +88,10 @@ module Spree
 
       def andreani_params
         params.require(:supplier)[:andreani].symbolize_keys
+      end
+      
+      def correo_params
+        params.require(:supplier)[:correo].symbolize_keys
       end
     end
   end
