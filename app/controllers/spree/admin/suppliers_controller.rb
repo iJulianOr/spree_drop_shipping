@@ -12,7 +12,6 @@ module Spree
       def update
         if @supplier.update_attributes supplier_params
           update_andreani
-          update_correo
           success_path
         else
           fail_path
