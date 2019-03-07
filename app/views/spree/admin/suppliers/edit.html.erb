@@ -9,6 +9,6 @@
 
 <%= form_for [:admin, @supplier], url: {action: :update}, method: :put, html: { multipart: true } do |f| %>
   <fieldset>
-    <%= render 'form', f: f, text: 'Actualizar Proveedor', supplier: @supplier, andreani: @andreani %>
+    <%= render 'form', f: f, text: 'Actualizar Proveedor', supplier: @supplier, andreani: @andreani, correo: @correo %>
   </fieldset>
 <% end %>

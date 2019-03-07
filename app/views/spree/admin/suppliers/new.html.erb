@@ -8,6 +8,6 @@
 
 <%= form_for [:admin, @supplier], url: {action: :create}, method: :post, html: { multipart: true } do |f| %>
   <fieldset>
-    <%= render 'form', f: f, text: 'Crear Proveedor', supplier: @supplier, andreani: @andreani %>
+    <%= render 'form', f: f, text: 'Crear Proveedor', supplier: @supplier, andreani: @andreani, correo: @correo %>
   </fieldset>
 <% end %>

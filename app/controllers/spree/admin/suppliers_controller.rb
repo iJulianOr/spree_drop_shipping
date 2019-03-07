@@ -25,6 +25,7 @@ module Spree
       def new
         @supplier = Spree::Supplier.new
         @andreani = @supplier.shipping_methods.find_by(name: 'Andreani').try(:calculator)
+        @correo = @supplier.shipping_methods.find_by(name: 'Correo Agentino').try(:calculator)
       end
 
       def create
@@ -49,6 +50,7 @@ module Spree
       def load_supplier
         @supplier = Spree::Supplier.find(params[:id])
         @andreani = @supplier.shipping_methods.find_by(name: 'Andreani').try(:calculator)
+        @correo = @supplier.shipping_methods.find_by(name: 'Correo Agentino').try(:calculator)
       end
 
       def success_path
