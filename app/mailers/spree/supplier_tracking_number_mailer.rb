@@ -6,7 +6,7 @@ module Spree
 
       mail from:      from_address,
            reply_to:  from_address,
-           subject:   'Venta Hogarnet',
+           subject:   'Venta Redsolei',
            to:        order.entity.email
     end
   end
