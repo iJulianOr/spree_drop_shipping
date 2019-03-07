@@ -54,11 +54,11 @@
               <%= password_field_tag 'supplier[correo][password]', correo.try(:preferences).try(:fetch, :password), class: 'form-control' %>
             </div>
             <div class='form-group col-md-6'>
-              <%= label_tag 'Contrato', nil %>
+              <%= label_tag 'Código Postal de origen', nil %>
               <%= text_field_tag 'supplier[correo][zipcode]', correo.try(:preferences).try(:fetch, :zipcode), class: 'form-control' %>
             </div>
             <div class='form-group col-md-6'>
-              <%= label_tag 'Número de Cliente' %>
+              <%= label_tag 'Provincia de origen' %>
               <%= text_field_tag 'supplier[correo][origin_state]', correo.try(:preferences).try(:fetch, :origin_state), class: 'form-control' %>
             </div>
           </div>
