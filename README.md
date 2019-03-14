@@ -9,7 +9,7 @@ Installation
 Add spree_drop_shipping to your Gemfile:
 
 ```ruby
-gem 'spree_drop_shipping'
+gem 'iJulianOr/spree_drop_shipping'
 ```
 
 Bundle your dependencies and run the installation generator:
@@ -36,4 +36,4 @@ Simply add this require statement to your spec_helper:
 require 'spree_drop_shipping/factories'
 ```
 
-Copyright (c) 2019 [name of extension creator], released under the New BSD License
+Copyright (c) 2019 Julián Ortiz, released under the New BSD License
